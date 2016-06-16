@@ -22,6 +22,7 @@ public class PeekableScanner
     	File file = new File(theFile);
         scan = new Scanner(file).useDelimiter(delimiters);
         next = scan.hasNext() ? scan.next() : null;
+        scan.close();
     }
 
     public boolean hasNext()

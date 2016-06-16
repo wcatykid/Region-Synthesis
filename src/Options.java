@@ -25,9 +25,12 @@ public class Options
             {
                 if (!handleOption(i)) return false;
             }
-            else
+            else if (args[i].endsWith("template-specs.txt"))
             {
                 templateFiles.add(args[i]);
+            } else if (args[i].endsWith("options.txt")) {
+            	OptionsFileParser optionsFileParser = new OptionsFileParser(args[i]);
+            	optionsFileParser.parseFile();
             }
         }
 

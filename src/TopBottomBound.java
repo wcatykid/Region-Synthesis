@@ -1,8 +1,13 @@
+import java.io.Serializable;
 import java.util.Vector;
 
-public class TopBottomBound
+public class TopBottomBound implements Serializable
 {
-    protected Vector<Bound> bounds;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3742451116366675419L;
+	protected Vector<Bound> bounds;
     
     public TopBottomBound()
     {
@@ -31,7 +36,9 @@ public class TopBottomBound
 
     public void addBound(Bound b)
     {
-    	this.bounds.addElement(b);
+    	if (b.getBoundT() != Bound.BoundT.HORIZONTAL_LINE ||
+    		!(!bounds.isEmpty() && bounds.lastElement().getBoundT() == Bound.BoundT.HORIZONTAL_LINE))
+    		this.bounds.addElement(b);
     }
 
     int length() { return bounds.size(); }
@@ -68,8 +75,7 @@ public class TopBottomBound
         while (c < this.bounds.size())
         {
             int dupCount = 1;
-            while (this.bounds.elementAt(c) == this.bounds.elementAt(c + dupCount) &&
-                   c < this.bounds.size())
+            while (c + dupCount < this.bounds.size() && this.bounds.elementAt(c) == this.bounds.elementAt(c + dupCount) )
             {
                 dupCount++;
             }
@@ -81,5 +87,13 @@ public class TopBottomBound
         }
 
         return s + "}";
+    }
+    
+    public int numberOfBounds() {
+    	return bounds.size();
+    }
+    
+    public TopBottomBound clone() {
+    	return null;
     }
 }

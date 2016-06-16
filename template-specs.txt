@@ -1,4 +1,4 @@
-Left P
-Top F
+Left V
+Top 2
 Right P
-Bottom F
+Bottom L

@@ -1,20 +1,25 @@
+import java.io.Serializable;
 
-public class LineSegment extends Bound
+public class LineSegment extends Bound implements Serializable
 {
-    protected Point pt1;
-    protected Point pt2;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7752196716541235809L;
+	protected Point pt1;  //Bottom point
+    protected Point pt2;  //Top point
 		    
-    public LineSegment() { super(); }
+    public LineSegment() { super(Bound.BoundT.VERTICAL_LINE); }
     public LineSegment(Point e1,  Point e2)
     {
-    	super();
+    	super(Bound.BoundT.VERTICAL_LINE);
         pt1 = e1;
         pt2 = e2;
     }
 
     public LineSegment(LineSegment that)
     {
-    	super();
+    	super(Bound.BoundT.VERTICAL_LINE);
         pt1 = that.pt1;
         pt2 = that.pt2;
     }
@@ -48,4 +53,7 @@ public class LineSegment extends Bound
     {
         return !equals(that);
     }
+    
+    public Point getLeftTopPoint() {return pt2; }
+    public Point getLeftBottomPoint() {return pt1; }
 }

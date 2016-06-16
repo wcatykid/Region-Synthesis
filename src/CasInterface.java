@@ -9,9 +9,97 @@ import com.wolfram.alpha.WAQuery;
 import com.wolfram.alpha.WAQueryResult;
 import com.wolfram.alpha.WASubpod;
 
+import com.wolfram.jlink.*;
+
 public class CasInterface
 {
-	private CasInterface() {}
+	//KernelLink ml;
+	public CasInterface() {
+		//String[] argv1 = {
+		//	"-linkmode",  "launch",  "-linkname",
+	//"C:\\Program Files\\Wolfram Research\\Mathematica\\10.2\\mathkernel.exe" };
+		//try {
+			//ml = MathLinkFactory.createKernelLink(argv1);
+		//} catch (MathLinkException e) {
+			//e.printStackTrace();
+		//}
+		
+		/*String[] argv1 = {
+				"-linkmode",  "launch",  "-linkname",
+		"C:\\Program Files\\Wolfram Research\\Mathematica\\10.2\\mathkernel.exe" };
+
+		try {
+			KernelLink ml = MathLinkFactory.createKernelLink(argv1);
+			ml.discardAnswer();
+
+            //ml.evaluate("<<MyPackage.m");
+            //ml.discardAnswer();
+
+            //ml.evaluate("solve x^2==x^3");
+            //ml.waitForAnswer();
+
+            //Expr e1 = new Expr(new Expr(Expr.SYMBOL, "Plus"), new Expr[] {new Expr(2), new Expr(new Expr(Expr.SYMBOL, "Plus"), new Expr[]{new Expr(2), new Expr(2)})});
+            //System.out.println(e1.toString());
+            //Expr e1 = new Expr("NSolve[x == x^2, x]");//"Plus[2, Plus[2, 2]]");
+            //String result = ml.getString();
+            //ml.evaluate(e1);
+            //ml.waitForAnswer();
+            String str = ml.evaluateToOutputForm("NSolve[x==-x^2+4,x]", 0);
+            System.out.println("Intersects of f(x) = x and g(x) = -x^2+4 : " + str);
+			
+		} catch (MathLinkException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Mathlink");
+			e.printStackTrace();
+		}*/
+	}
+	
+	public String getInersection(BoundedFunction func1, BoundedFunction func2) {
+		String[] argv1 = {
+				//"-linkmode",  "launch",  "-linkname",
+		"C:\\Program Files\\Wolfram Research\\Mathematica\\10.2\\mathkernel.exe" };
+		try {
+			KernelLink ml = MathLinkFactory.createKernelLink(argv1);
+			ml.discardAnswer();
+			String func1Str = func1.toMathematicaString();
+			String func2Str = func2.toMathematicaString();
+			String str = ml.evaluateToOutputForm("NSolve["+func1Str+"=="+func2Str+",x]", 0);
+            return str;
+			
+		} catch (MathLinkException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Mathlink");
+			e.printStackTrace();
+		}
+		return "Invalid Points";
+	}
+	
+	public String getLagrangePolynomial(Point[] points) {
+		String[] argv1 = {
+				//"-linkmode",  "launch",  "-linkname",
+		"C:\\Program Files\\Wolfram Research\\Mathematica\\10.2\\mathkernel.exe" };
+		try {
+			KernelLink ml = MathLinkFactory.createKernelLink(argv1);
+			ml.discardAnswer();
+			
+			String str = "InterpolatingPolynomial[{";
+			for (Point p : points) {
+				str += "{"+p.x+","+p.y+"},";
+			}
+			str = str.substring(0,str.length()-1); //Remove last character because of an extra comma.
+			str += "}, x]";
+            return str;
+		} catch (MathLinkException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Mathlink");
+			e.printStackTrace();
+		}
+		return "Invalid Points for Lagrange Polynomial";
+	}
+	
+	public BoundedFunction parseLagrangePolynomial(String str) {
+		return null;
+	}
 
 	public final Vector<Point> intersects(BoundedFunction first, BoundedFunction second)
 	{

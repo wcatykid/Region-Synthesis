@@ -61,4 +61,8 @@ public class Utilities
 
 	    return new Pair<Integer, Integer>(-1, -1);
 	}
+	
+	public static double removeFloatingError(double d) {
+		return (d * 0.00000000000000000001) / 0.00000000000000000001;
+	}
 }

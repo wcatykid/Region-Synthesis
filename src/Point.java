@@ -1,7 +1,12 @@
+import java.io.Serializable;
 
-public class Point
+public class Point implements Serializable
 {
-    protected double x;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1459271016405991323L;
+	protected double x;
     protected double y;
     
     public Point()
@@ -60,6 +65,10 @@ public class Point
     	
         return Utilities.compareValues(this.x, that.x) && Utilities.compareValues(this.y, that.y);
     }
+    
+    public Point clone() {
+    	return new Point(this.x, this.y);
+    }
 
     public boolean notEquals(Point that)
     {
@@ -102,4 +111,5 @@ public class Point
     {
         return "(" + this.x + ", " + this.y + ")";
     }
+    
 }

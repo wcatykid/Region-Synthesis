@@ -1,4 +1,4 @@
-import java.lang.*;
+//import java.lang.*;
 import java.io.FileNotFoundException;
 import java.util.Vector;
 
@@ -169,15 +169,15 @@ public class TemplateFileParser
         // Read the entire sequence, one element at a time
         Vector<Bound.BoundT> sequence = new Vector<Bound.BoundT>();
 
-        final String ALLOWABLE = "0123456789PpVvFf";
+        final String ALLOWABLE = "0123456789PpVvFfHhLlSsCceGg";
 
         for (char code = input.peek().charAt(0); ALLOWABLE.indexOf(code) != -1; code = input.peek().charAt(0))
         {
             // Peek at the next character to determine if it is an integer character
-            if (Character.isDigit(code))
-            {
-                throw new IllegalArgumentException("Digit may only follow 'F' (for functions)");
-            }
+            //if (Character.isDigit(code))
+            //{
+            //    throw new IllegalArgumentException("Digit may only follow 'F' (for functions)");
+            //}
 
             code = input.next().charAt(0);
 
@@ -226,6 +226,17 @@ public class TemplateFileParser
                     // Single Function
                     else sequence.add(Bound.BoundT.FUNCTION);
                     break;
+                    
+                case 'H': sequence.add(Bound.BoundT.HORIZONTAL_LINE); break;  //horizontal line
+                case 'L': sequence.add(Bound.BoundT.LINEAR); break;  //line/linear
+                case '2': sequence.add(Bound.BoundT.PARABOLA); break;  //2nd degree
+                case '3': sequence.add(Bound.BoundT.CUBIC);break;  //3rd degree
+                case '4': sequence.add(Bound.BoundT.QUARTIC);break;  //4th degree
+                case '5': sequence.add(Bound.BoundT.QUINTIC);break;  //5th degree
+                case 'S': sequence.add(Bound.BoundT.SINE);break;  //Sine
+                case 'C': sequence.add(Bound.BoundT.COSINE);break;  //Cosine
+                case 'e': sequence.add(Bound.BoundT.EXPONENTIAL);break;  //Exponential
+                case 'G': sequence.add(Bound.BoundT.LOGARITHMIC);break;  //Log
 
                 default:
                     throw new IllegalArgumentException("Unrecognized code: |" + code);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="commons-logging.jar"/>
+	<classpathentry kind="lib" path="httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="WolframAlpha-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Wolfram Research/Mathematica/10.2/SystemFiles/Links/JLink/JLink.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

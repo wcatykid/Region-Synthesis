@@ -1,21 +1,27 @@
 
 public class PointBound extends Bound
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3190276295795816736L;
 	protected Point point;
 
 	public PointBound()
 	{
-		super();
+		super(Bound.BoundT.POINT);
 		point = null;
 	}
 
     public PointBound(Point pt)
     {
+    	super(Bound.BoundT.POINT);
     	point = pt;
     }
 
     public PointBound(PointBound that)
     {
+    	super(Bound.BoundT.POINT);
         point = that.point;
     }
 
@@ -44,4 +50,7 @@ public class PointBound extends Bound
     {
 	    return !equals(obj);
     }
+
+    public Point getLeftTopPoint() {return point; }
+    public Point getLeftBottomPoint() {return point; }
 }

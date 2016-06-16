@@ -1,5 +1,11 @@
-public class BoundedFunction
+import java.io.Serializable;
+
+public class BoundedFunction extends Bound implements Serializable 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2883462033822784426L;
 	//
 	// g(x) = a f( b ( x - h )) + k
 	//
@@ -22,13 +28,20 @@ public class BoundedFunction
 	//
 	protected double leftX;
 	protected double rightX;
+	
+	protected String signOfLeftBound = "<=";
+	protected String signOfRightBound = "<";
 
+	public void signOfLeftBound(String replacement){ signOfRightBound = replacement; }
+	
+	public double getRightX() { return rightX; }
+	public void setRightX(double rightX) { this.rightX = rightX; }
 
-	public BoundedFunction() { super(); }
+	public BoundedFunction() { super(Bound.BoundT.FUNCTION); }
 
 	public BoundedFunction(BoundedFunction that)
 	{
-		super();
+		super(Bound.BoundT.FUNCTION);
 
 		this.a = that.a;
 		this.b = that.b;
@@ -42,7 +55,7 @@ public class BoundedFunction
 
 	public BoundedFunction(FunctionT fType, double horiz, double vert)
 	{
-		super();
+		super(Bound.BoundT.FUNCTION);
 
 		this.a = 1;
 		this.b = 1;
@@ -56,7 +69,7 @@ public class BoundedFunction
 
 	public BoundedFunction(FunctionT fType, double vertStr, double horizStr, double horiz, double vert)
 	{
-		super();
+		super(Bound.BoundT.FUNCTION);
 
 		this.a = vertStr;
 		this.b = horizStr;
@@ -71,7 +84,7 @@ public class BoundedFunction
 	public BoundedFunction(FunctionT fType, double vertStr, double horizStr, double horiz,
 			double vert, double leftBound, double rightBound)
 	{
-		super();
+		super(Bound.BoundT.FUNCTION);
 
 		this.a = vertStr;
 		this.b = horizStr;
@@ -130,10 +143,14 @@ public class BoundedFunction
 	{
 		return !this.equals(obj);
 	}
+	
+	public String toMathematicaString() {
+		return theFunc.toFunctionString(a, b, h, k);
+	}
 
 	public String toString()
 	{
-		return theFunc.toFunctionString(a, b, h, k);
+		return toMathematicaString() + " { " + leftX + " " + signOfLeftBound +  " x " + signOfRightBound + " " + rightX + "}" ;
 	}
 	
 	public double evaluateAtPoint(double x)
@@ -141,141 +158,10 @@ public class BoundedFunction
 		return theFunc.evaluate(a, b, h, k, x);
 	}
 	
-	public enum FunctionT
-	{
-		HORIZONTAL_LINE(0),
-		LINEAR(1),
-		PARABOLA(2),
-		CUBIC(3),
-		QUARTIC(4),
-		QUINTIC(5),
-		POLYNOMIAL(6),
-
-		EXPONENTIAL(7),
-		LOGARITHMIC(8),
-
-		SINE(9),
-		COSINE(10),
-
-		UNSPECIFIED(11);
-
-		private final int value;
-		private FunctionT(int value) { this.value = value; }
-		public int getValue() { return value; }
-
-		public double evaluate(double a, double b, double h, double k, double x)
-		{
-			switch (this)
-			{
-  			    case HORIZONTAL_LINE:
-                    return k;
-  			    
-			    case LINEAR:
-                    return a * b * (x - h) + k;
-
-			    case PARABOLA:
-                    return a * Math.pow(b * (x - h), 2) + k;
-
-			    case CUBIC:
-                    return a * Math.pow(b * (x - h), 3) + k;
-			    
-		   	    case QUARTIC:
-                    return a * Math.pow(b * (x - h), 4) + k;
-
-		   	    case QUINTIC:
-                    return a * Math.pow(b * (x - h), 5) + k;
-
-		   	    case POLYNOMIAL:
-					throw new IllegalArgumentException(POLYNOMIAL + " not recognized FunctionT.evaluate()");
-
-			    case EXPONENTIAL:
-                    return a * Math.pow(Math.E, b * (x - h)) + k;
-
-			    case LOGARITHMIC:
-                    return a * Math.log(b * (x - h)) + k;
-
-			    case SINE:
-                    return a * Math.sin(b * (x - h)) + k;
-			
-			    case COSINE:
-                    return a * Math.cos(b * (x - h)) + k;
-
-			    case UNSPECIFIED:
-			    default:
-				    throw new IllegalArgumentException(this.value + " not recognized FunctionT.evaluate()");
-			}
-		}
-		public String toFunctionString(double a, double b, double h, double k)
-		{
-			switch (this)
-			{
-  			    case HORIZONTAL_LINE:
-                    return Double.toString(k);
-  			    
-			    case LINEAR:
-                    return a + " * ( " + b + " * (x - " + h + ") +" + k;
-
-			    case PARABOLA:
-                    return a + " * ( " + b + " * (x - " + h + ")^2 +" + k;
-
-			    case CUBIC:
-                    return a + " * ( " + b + " * (x - " + h + ")^3 +" + k;
-			    
-		   	    case QUARTIC:
-                    return a + " * ( " + b + " * (x - " + h + ")^4 +" + k;
-
-		   	    case QUINTIC:
-                    return a + " * ( " + b + " * (x - " + h + ")^5 +" + k;
-
-		   	    case POLYNOMIAL:
-					throw new IllegalArgumentException(POLYNOMIAL + " not recognized FunctionT.toFunctionString()");
-
-			    case EXPONENTIAL:
-                    return a + " * e ^ ( " + b + " * (x - " + h + ") +" + k;
-
-			    case LOGARITHMIC:
-                    return a + " * ln ( " + b + " * (x - " + h + ") +" + k;
-
-			    case SINE:
-                    return a + " * sin ( " + b + " * (x - " + h + ") +" + k;
-			
-			    case COSINE:
-                    return a + " * cos ( " + b + " * (x - " + h + ") +" + k;
-
-			    case UNSPECIFIED:
-			    default:
-				    throw new IllegalArgumentException(this.value + " not recognized FunctionT.toString()");
-			}
-		}
-		public String toString()
-		{
-			switch (this)
-			{
-  			    case HORIZONTAL_LINE:
-			    case LINEAR:
-			    case PARABOLA:
-			    case CUBIC:
-		   	    case QUARTIC:
-			    case QUINTIC:
-			    case POLYNOMIAL:
-                    return "";
-
-			    case EXPONENTIAL:
-				    return "e";
-
-			    case LOGARITHMIC:
-				    return "ln";
-
-			    case SINE:
-				    return "sin";
-			
-			    case COSINE:
-				    return "cos";
-
-			case UNSPECIFIED:
-			default:
-				throw new IllegalArgumentException(this.value + " not recognized FunctionT.toString()");
-			}
-		}
+	public BoundedFunction clone() {
+		return new BoundedFunction(this);
 	}
+	
+	public Point getLeftTopPoint() { return new Point(rightX, evaluateAtPoint(rightX)); }    
+	public Point getLeftBottomPoint() { return new Point(rightX, evaluateAtPoint(rightX));  } //Since it's a function, there should never be two different points for top and bottom.
 }

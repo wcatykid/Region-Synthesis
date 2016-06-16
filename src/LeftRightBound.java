@@ -1,6 +1,11 @@
+import java.io.Serializable;
 
-public class LeftRightBound
+public class LeftRightBound implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1748487694703940271L;
 	protected Bound bound;
 
 	public LeftRightBound() { super(); }
@@ -33,6 +38,12 @@ public class LeftRightBound
     
     public String toString()
     {
-    	return this.bound.toString();
+    	return (bound != null) ? this.bound.toString() : "null";
+    }
+    
+    @Override
+    public Object clone() {
+    	
+    	return null;
     }
 }

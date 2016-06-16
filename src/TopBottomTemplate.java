@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.Vector;
 
 public class TopBottomTemplate
@@ -46,7 +45,7 @@ public class TopBottomTemplate
     // A valid top / bottom sequence has at least one function
     private boolean minimalFunctions()
     {
-        return templateBounds.contains(Bound.BoundT.FUNCTION);
+        return true;//templateBounds.contains(Bound.BoundT.FUNCTION) || templateBounds.contains();
     }
     
     public boolean equals(Object obj)

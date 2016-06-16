@@ -23,9 +23,9 @@ public class Pair<A, B>
 
     public boolean equals(Object other)
     {
-    	if (other != null && other instanceof Pair)
+    	if (other != null && other instanceof Pair<?,?>)
         {
-    		Pair otherPair = (Pair) other;
+    		Pair<?,?> otherPair = (Pair<?,?>) other;
     		return ((this.first == otherPair.first || (this.first != null && otherPair.first != null && this.first.equals(otherPair.first))) &&
     		        (this.second == otherPair.second || (this.second != null && otherPair.second != null && this.second.equals(otherPair.second))) );
     	}
